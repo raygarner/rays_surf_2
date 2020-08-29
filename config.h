@@ -48,6 +48,7 @@ static SearchEngine searchengines[] = {
     { "s",   "https://searx.xyz/search?q=%s"      },
     { "w",   "https://en.wikipedia.org/wiki/%s"   },
     { "aw",  "https://wiki.archlinux.org/index.php?search=%s" },
+    { "y",   "https://www.youtube.com/results?search_query=%s" },
 };
 
 static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |

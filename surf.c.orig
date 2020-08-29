@@ -129,11 +129,6 @@ typedef struct {
 } Button;
 
 typedef struct {
-	char *token;
-	char *uri;
-} SearchEngine;
-
-typedef struct {
 	const char *uri;
 	Parameter config[ParameterLast];
 	regex_t re;
@@ -207,7 +202,6 @@ static void responsereceived(WebKitDownload *d, GParamSpec *ps, Client *c);
 static void download(Client *c, WebKitURIResponse *r);
 static void closeview(WebKitWebView *v, Client *c);
 static void destroywin(GtkWidget* w, Client *c);
-static gchar *parseuri(const gchar *uri);
 
 /* Hotkeys */
 static void pasteuri(GtkClipboard *clipboard, const char *text, gpointer d);
@@ -223,6 +217,7 @@ static void togglefullscreen(Client *c, const Arg *a);
 static void togglecookiepolicy(Client *c, const Arg *a);
 static void toggleinspector(Client *c, const Arg *a);
 static void find(Client *c, const Arg *a);
+static void playexternal(Client *c, const Arg *a);
 
 /* Buttons */
 static void clicknavigate(Client *c, const Arg *a, WebKitHitTestResult *h);
@@ -483,7 +478,7 @@ loaduri(Client *c, const Arg *a)
 		url = g_strdup_printf("file://%s", path);
 		free(path);
 	} else {
-		url = parseuri(uri);
+		url = g_strdup_printf("http://%s", uri);
 	}
 
 	setatom(c, AtomUri, url);
@@ -1467,22 +1462,6 @@ destroywin(GtkWidget* w, Client *c)
 		gtk_main_quit();
 }
 
-gchar *
-parseuri(const gchar *uri) {
-	guint i;
-
-	for (i = 0; i < LENGTH(searchengines); i++) {
-		if (searchengines[i].token == NULL || searchengines[i].uri == NULL ||
-		    *(uri + strlen(searchengines[i].token)) != ' ')
-			continue;
-		if (g_str_has_prefix(uri, searchengines[i].token))
-			return g_strdup_printf(searchengines[i].uri,
-					       uri + strlen(searchengines[i].token) + 1);
-	}
-
-	return g_strdup_printf("http://%s", uri);
-}
-
 void
 pasteuri(GtkClipboard *clipboard, const char *text, gpointer d)
 {
@@ -1667,6 +1646,15 @@ clickexternplayer(Client *c, const Arg *a, WebKitHitTestResult *h)
 	Arg arg;
 
 	arg = (Arg)VIDEOPLAY(webkit_hit_test_result_get_media_uri(h));
+	spawn(c, &arg);
+}
+
+void
+playexternal(Client *c, const Arg *a)
+{
+	Arg arg;
+
+	arg = (Arg)VIDEOPLAY(geturi(c));
 	spawn(c, &arg);
 }
 
