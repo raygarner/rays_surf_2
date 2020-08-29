@@ -74,6 +74,41 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
         } \
 }
 
+
+/* DOWNLOAD(URI, referer) */
+/*
+#define DOWNLOAD(d, r) { \
+	.v = (char *[]){ "/bin/sh", "-c", \
+		"cd ~/Telechargements;"\
+		"st -e /bin/sh -c \"aria2c -U '$1'" \
+		" --referer '$2' --load-cookies $3 --save-cookies $3 '$0';" \
+		" sleep 3;\"", \
+		d, useragent, r, cookiefile, NULL \
+	} \
+}
+*/
+
+/* DOWNLOAD(URI, referer) */
+#define DOWNLOAD(d, r) { \
+	.v = (char *[]){ "/bin/sh", "-c", \
+		"cd ~/Telechargements;"\
+		"st -e /bin/sh -c \"aria2c -U '$1'" \
+		" --referer '$2' --load-cookies $3 --save-cookies $3 '$0';" \
+		" sleep 3;\"", \
+		d, useragent, r, cookiefile, NULL \
+	} \
+}
+/* DOWNLOAD(URI, referer) */
+#define DOWNLOAD(d, r) { \
+	.v = (char *[]){ "/bin/sh", "-c", \
+		"cd ~/Telechargements;"\
+		"st -e /bin/sh -c \"aria2c -U '$1'" \
+		" --referer '$2' --load-cookies $3 --save-cookies $3 '$0';" \
+		" sleep 3;\"", \
+		d, useragent, r, cookiefile, NULL \
+	} \
+}
+
 /* PLUMB(URI) */
 /* This called when some URI which does not begin with "about:",
  * "http://" or "https://" should be opened.
