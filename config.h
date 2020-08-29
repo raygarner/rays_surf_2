@@ -46,6 +46,7 @@ static SearchEngine searchengines[] = {
 	{ "g",   "http://www.google.de/search?q=%s"   },
 	{ "leo", "http://dict.leo.org/ende?search=%s" },
     { "s",   "https://searx.xyz/search?q=%s"      },
+    { "w",   "https://en.wikipedia.org/wiki/%s"   },
 };
 
 static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
